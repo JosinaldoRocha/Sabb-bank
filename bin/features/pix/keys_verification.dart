@@ -27,7 +27,7 @@ void cpfCnpj() {
       newKey = readString(message: "CPF/CNPJ:");
       sameKeys = users.any((element) => element["chave"] == newKey);
       positiveKey = newKey.length == 11 || newKey.length == 14;
-
+//dfadfadfadfadaf
       if (positiveKey) {
         if (!sameKeys) {
           type -= 1;
