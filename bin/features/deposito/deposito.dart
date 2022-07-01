@@ -1,11 +1,12 @@
 import '../../util/read.dart';
 import '../../variables/caluladora_do_saldo.dart';
 import '../../variables/users.dart';
-// import '../authentication/step3.dart';
 import '../home/Home.dart';
 import 'void.dart';
 
+Map<String, dynamic> valor = {};
 Future<void> depos() async {
+  valor = {};
   double value = readDouble(message: "Digite o Valor do Deposito:? ");
 
   print("Carregando.......... espere alguns segundos................");
@@ -19,14 +20,18 @@ Future<void> depos() async {
 
   users.add(balanceUSer);
 
-  Map<String, dynamic> valor = {
-    "valor": value,
-  };
+  valor["valor"] = value;
 
   allDeposits.add(valor);
   money1.add(valor);
   print("-----------------------------------------------------------");
 
+  if (deposit[currentUser["nome"]] == null) {
+    deposit[currentUser["nome"]] = allDeposits;
+  } else {
+    deposit[currentUser["nome"]] += allDeposits;
+  }
+  allDeposits = [];
   String answer;
   do {
     String answertext =

@@ -3,6 +3,8 @@ List<Map<String, dynamic>> loan = [];
 List<Map<String, dynamic>> loanError = [];
 List<Map<String, dynamic>> money1 = [];
 Map<String, dynamic> balanceUSer = {};
+Map<String, dynamic> deposit = {};
+
 
 // double balance = mostra();
 

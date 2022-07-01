@@ -1,3 +1,4 @@
+import '../../variables/users.dart';
 import '../saldo e extrato/voltar_ou_sair.dart';
 import '../../util/linha.dart';
 import '../../variables/caluladora_do_saldo.dart';
@@ -8,13 +9,17 @@ void mostrarExtrato() {
   //area de deposito
   Map<String, dynamic> deposito;
   print("Depositos:");
-  for (deposito in allDeposits) {
-    print("${allDeposits.indexOf(deposito) + 1}º Depósito:");
-    deposito.forEach((key, value) {
-      print("$key : $value");
-    });
-    linha();
+
+  for(var element in deposit[currentUser["nome"]]){
+    print(element["valor"]);  
   }
+  // for (deposito in allDeposits) {
+  //   print("${allDeposits.indexOf(deposito) + 1}º Depósito:");
+  //   deposito.forEach((key, value) {
+  //     print("$key : $value");
+  //   });
+  //   linha();
+  // }
 
   //area de emprestimo
   Map<String, dynamic> emprestimo;
