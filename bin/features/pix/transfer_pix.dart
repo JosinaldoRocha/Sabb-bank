@@ -1,3 +1,4 @@
+import '../../util/clean_screen.dart';
 import '../../util/read.dart';
 import '../../variables/caluladora_do_saldo.dart';
 import '../../variables/pix.dart';
@@ -43,6 +44,7 @@ void transferPositive() {
   accountType = 0;
 
   keyTransfer = readString(message: 'Chave:');
+
   while (accountType != 1 && accountType != 2) {
     counter = 1;
     print('Debitar da sua conta:');
@@ -65,6 +67,7 @@ void transferPositive() {
           'Nome: ${searchLastName["nome"]} ${searchLastName["sobrenome"]}\n'); //beneficiado
 
       option = readInt(message: '[1] Confirmar transferência');
+      cleanScreen();
     } while (option != 1);
 
     if (valueTransfer <= balanceUSer[currentUser["nome"]]) {
@@ -80,6 +83,7 @@ void transferPositive() {
 
       option = readInt(
           message: '[1] Ver comprovante      [2] Voltar para a área pix');
+      cleanScreen();
       if (option == 1) {
         proof();
       } else if (option == 2) {
@@ -88,6 +92,7 @@ void transferPositive() {
         print('\nOpção inválida!\n');
         do {
           option = readInt(message: '[1] Voltar ao menu inicial');
+          cleanScreen();
         } while (option != 1);
       }
     } else {
@@ -122,6 +127,7 @@ void proof() {
       'Conta: ${account[accountType - 1]}\n'
       'Número da conta ${account[accountType - 1]}: ${currentUser["conta"]}\n');
 
+  //teste
   print(
       'Saldo do beneficiado: ${searchBalance[searchUSer["usuário"]]}'); //beneficiado
   print('Meu saldo: ${balanceUSer[currentUser["nome"]]}\n'); //pagador

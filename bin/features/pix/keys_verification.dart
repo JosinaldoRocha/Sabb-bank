@@ -1,3 +1,4 @@
+import '../../util/clean_screen.dart';
 import '../../util/read.dart';
 import '../../variables/pix.dart';
 import '../../variables/users.dart';
@@ -27,7 +28,7 @@ void cpfCnpj() {
       newKey = readString(message: "CPF/CNPJ:");
       sameKeys = users.any((element) => element["chave"] == newKey);
       positiveKey = newKey.length == 11 || newKey.length == 14;
-//dfadfadfadfadaf
+
       if (positiveKey) {
         if (!sameKeys) {
           type -= 1;
@@ -49,6 +50,7 @@ void cpfCnpj() {
       }
     }
   }
+  cleanScreen();
 }
 
 void cell() {
@@ -84,6 +86,7 @@ void cell() {
       }
     }
   }
+  cleanScreen();
 }
 
 void email() {
@@ -107,6 +110,7 @@ void email() {
       print('     <<Chave, já cadastrada!>>\nDigite um e-mail diferente.\n');
     }
   }
+  cleanScreen();
 }
 
 void random() {
@@ -130,4 +134,5 @@ void random() {
       print('     <<Chave, já cadastrada!>>\nDigite uma chave diferente.\n');
     }
   }
+  cleanScreen();
 }

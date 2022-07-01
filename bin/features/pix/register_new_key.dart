@@ -1,3 +1,4 @@
+import '../../util/clean_screen.dart';
 import '../../util/read.dart';
 import '../../variables/pix.dart';
 import '../../variables/users.dart';
@@ -18,6 +19,7 @@ void registerNewKey() {
     print('${counter++} - $element');
   }
   type = readInt(message: "Tipo de chave:");
+
   if (type > 0 && type <= typeKey.length) {
     keysVerification();
   } else {
@@ -34,6 +36,7 @@ void registerNewKey() {
 
   do {
     option = readInt(message: '[1] Voltar à área pix');
+    cleanScreen();
   } while (option != 1);
   pixMenuTwo();
 }

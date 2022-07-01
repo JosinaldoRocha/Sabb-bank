@@ -1,3 +1,4 @@
+import '../../util/clean_screen.dart';
 import '../../util/read.dart';
 import '../../variables/pix.dart';
 import '../../variables/users.dart';
@@ -15,6 +16,7 @@ void myKeysRegistered() {
   print('');
   do {
     option = readInt(message: '[1] Voltar à área pix');
+    cleanScreen();
   } while (option != 1);
   pixMenuTwo();
 }

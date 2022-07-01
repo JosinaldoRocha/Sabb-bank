@@ -19,12 +19,12 @@ Future<void> depos() async {
 
   users.add(balanceUSer);
 
-  // Map<String, dynamic> valor = {
-  //   "valor": value,
-  // };
+  Map<String, dynamic> valor = {
+    "valor": value,
+  };
 
-  // allDeposits.add(valor);
-  // money1.add(valor);
+  allDeposits.add(valor);
+  money1.add(valor);
   print("-----------------------------------------------------------");
 
   String answer;
