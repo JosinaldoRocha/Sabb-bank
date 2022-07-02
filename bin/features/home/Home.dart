@@ -57,6 +57,7 @@ void test() {
     balanceUSer[currentUser["nome"]] = balance;
     print('Saldo ${currentUser["nome"]}: R\$ $balance');
   } else {
+    balanceUSer[currentUser["nome"]] = balance;
     print(
         'Saldo ${currentUser["nome"]}: R\$ ${balanceUSer[currentUser["nome"]]}');
   }

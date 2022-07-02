@@ -46,58 +46,26 @@ void transferPositive() {
   keyTransfer = readString(message: 'Chave:');
 
   while (accountType != 1 && accountType != 2) {
-    counter = 1;
-    print('Debitar da sua conta:');
-    for (var element in account) {
-      print('[${counter++}] $element');
-    }
-    accountType = readInt(message: 'Conta:');
+    currentSavings();
   }
-
   bool positiveTransfer = users.any((element) =>
       element["chave"] == keyTransfer && element["tipo"] == typeKey[type - 1]);
 
   if (positiveTransfer) {
     search();
-    do {
-      valueTransfer = readDouble(message: 'Valor da transferência:');
 
+    do {
       print(
           '\nDestino:\nTipo de chave pix: ${typeKey[type - 1]}\nChave pix: $keyTransfer\n'
           'Nome: ${searchLastName["nome"]} ${searchLastName["sobrenome"]}\n'); //beneficiado
+
+      valueTransfer = readDouble(message: 'Valor da transferência:');
 
       option = readInt(message: '[1] Confirmar transferência');
       cleanScreen();
     } while (option != 1);
 
-    if (valueTransfer <= balanceUSer[currentUser["nome"]]) {
-      searchBalance[searchUSer["usuário"]] +=
-          valueTransfer; // adição no saldo do beneficiado
-
-      balanceUSer[currentUser["nome"]] -=
-          valueTransfer; //subtração no saldo do pagador
-
-      print('\nTransferência concluída!');
-      searchUSer["saldo"] += valueTransfer;
-      user["saldo"] -= valueTransfer;
-
-      option = readInt(
-          message: '[1] Ver comprovante      [2] Voltar para a área pix');
-      cleanScreen();
-      if (option == 1) {
-        proof();
-      } else if (option == 2) {
-        pixMenuTwo();
-      } else {
-        print('\nOpção inválida!\n');
-        do {
-          option = readInt(message: '[1] Voltar ao menu inicial');
-          cleanScreen();
-        } while (option != 1);
-      }
-    } else {
-      print('Saldo insuficiente!');
-    }
+    confirmTransfer();
   } else {
     print('Chave inexistente!\n');
   }
@@ -132,3 +100,52 @@ void proof() {
       'Saldo do beneficiado: ${searchBalance[searchUSer["usuário"]]}'); //beneficiado
   print('Meu saldo: ${balanceUSer[currentUser["nome"]]}\n'); //pagador
 }
+
+void currentSavings() {
+  counter = 1;
+  print('Debitar da sua conta:');
+  for (var element in account) {
+    print('[${counter++}] $element');
+  }
+  accountType = readInt(message: 'Conta:');
+}
+
+void confirmTransfer() {
+  if (valueTransfer <= balanceUSer[currentUser["nome"]]) {
+    searchBalance[searchUSer["usuário"]] +=
+        valueTransfer; // adição no saldo do beneficiado
+
+    balanceUSer[currentUser["nome"]] -=
+        valueTransfer; //subtração no saldo do pagador
+
+    print('\nTransferência concluída!');
+    searchUSer["saldo"] += valueTransfer;
+    user["saldo"] -= valueTransfer;
+
+    option =
+        readInt(message: '[1] Ver comprovante      [2] Voltar para a área pix');
+    cleanScreen();
+    if (option == 1) {
+      proof();
+    } else if (option == 2) {
+      pixMenuTwo();
+    } else {
+      print('\nOpção inválida!\n');
+      do {
+        option = readInt(message: '[1] Voltar para a área pix');
+        cleanScreen();
+      } while (option != 1);
+      pixMenuTwo();
+    }
+  } else {
+    print('Saldo insuficiente!');
+  }
+}
+
+    // String password = readString(message: 'Digite sua senha:');
+    // positiveTransfer = users.any((element) => element["senha"] == password);
+    // if(positiveTransfer){
+
+    // }else{
+    //   print('Senha inválida!');
+    // }

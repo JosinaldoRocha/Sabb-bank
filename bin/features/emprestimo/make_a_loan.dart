@@ -2,23 +2,27 @@ import '../../util/clean_screen.dart';
 import '../../util/read.dart';
 import '../../variables/caluladora_do_saldo.dart';
 import '../../variables/users.dart';
+import '../home/Home.dart';
 
+late double loanAmount;
 void empresta(double value, int time, double tax, double salary) {
   tax = (tax / 100);
   salary = (salary * 0.3);
   double emprestimoPedido = value;
 
   double fees = value * (tax * time);
-  value += fees;
+  loanAmount = value += fees;
   int parcelas = time * 12;
   double installmentValue = value / parcelas;
   cleanScreen();
   if (installmentValue <= salary && currentUser["senha"] == password) {
+    balance += loanAmount;
+
     //esse biils e uma list com maps de dados do usuario
     print("Empréstimo_aceito");
     loan.add({
       "emprestimo_pedido": emprestimoPedido,
-      "valor_a_pagar": value.toStringAsFixed(2),
+      "valor_a_pagar": loanAmount.toStringAsFixed(2),
       "valor_do_juros": fees.toStringAsFixed(2),
       "quantidade_de_parcelas": parcelas,
       "tempo_em_anos": time,

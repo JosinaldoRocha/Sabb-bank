@@ -31,6 +31,7 @@ Future<void> depos() async {
   } else {
     deposit[currentUser["nome"]] += allDeposits;
   }
+
   allDeposits = [];
   String answer;
   do {
