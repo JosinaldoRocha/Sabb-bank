@@ -16,7 +16,9 @@ void empresta(double value, int time, double tax, double salary) {
   double installmentValue = value / parcelas;
   cleanScreen();
   if (installmentValue <= salary && currentUser["senha"] == password) {
-    balance += loanAmount;
+    
+    balanceUSer[currentUser["nome"]] += loanAmount;
+    balance = balanceUSer[currentUser["nome"]];
 
     //esse biils e uma list com maps de dados do usuario
     print("Empréstimo_aceito");

@@ -14,7 +14,7 @@ late Map<String, dynamic> searchLastName;
 late Map<String, dynamic> searchBalance;
 
 late int accountType;
-int counter = 1;
+late int counter;
 int option = 0;
 void transferPix() {
   type = 0;
@@ -23,6 +23,7 @@ void transferPix() {
     print('Qual tipo de chave pix receberá a transferência?');
 
     for (var element in typeKey) {
+      counter = 1;
       print('[${counter++}] $element');
     }
     type = readInt(message: 'Tipo de chave:');

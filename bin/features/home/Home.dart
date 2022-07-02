@@ -3,8 +3,8 @@ import '../../util/read.dart';
 import '../../variables/caluladora_do_saldo.dart';
 import '../../variables/users.dart';
 import '../authentication/step2.dart';
+import '../deposito/new_deposit.dart';
 import '../emprestimo/init.dart';
-import '../deposito/void.dart';
 import '../pix/pix_area.dart';
 import '../saldo e extrato/extrato.dart';
 
@@ -14,7 +14,7 @@ void home() {
   print("---------    Bem vindo ao Sabb Bank      --------------");
   print("-------------------------------------------------------");
 
-  test();
+  showBalance();
   print("Menu:");
 
   print("(1). Pix");
@@ -32,7 +32,7 @@ void home() {
       pixArea();
       break;
     case 2:
-      main();
+      newdeposit();
       break;
     case 3:
       init();
@@ -51,14 +51,15 @@ void home() {
   }
 }
 
-void test() {
+void showBalance() {
+  users.add(balanceUSer);
   if (balanceUSer[currentUser["nome"]] == null) {
     balance = 0;
     balanceUSer[currentUser["nome"]] = balance;
     print('Saldo ${currentUser["nome"]}: R\$ $balance');
   } else {
-    balanceUSer[currentUser["nome"]] = balance;
+    double showBalance = balanceUSer[currentUser["nome"]];
     print(
-        'Saldo ${currentUser["nome"]}: R\$ ${balanceUSer[currentUser["nome"]]}');
+        'Saldo ${currentUser["nome"]}: R\$ ${showBalance.toStringAsFixed(2)}');
   }
 }

@@ -5,9 +5,6 @@ List<Map<String, dynamic>> money1 = [];
 Map<String, dynamic> balanceUSer = {};
 Map<String, dynamic> deposit = {};
 
-
-// double balance = mostra();
-
 double mostra() {
   double saldo1 = 0;
   for (var element in money1) {
