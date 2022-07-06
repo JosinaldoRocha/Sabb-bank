@@ -15,8 +15,8 @@ void step2() {
   print("|3| Sair");
   print("-----------------------");
 
-  String? escolhatext = stdin.readLineSync();
-  int escolha = int.tryParse(escolhatext ?? "0") ?? 0;
+  String? escolhaText = stdin.readLineSync();
+  int escolha = int.tryParse(escolhaText ?? "0") ?? 0;
 
   if (escolha == 1) {
     step4();

@@ -7,7 +7,7 @@ void mostrarExtrato() {
   print("|=============| Extrato |===========|");
 
   //area de deposito
-  Map<String, dynamic> deposito;
+  //Map<String, dynamic> deposito;
   print("Depositos:");
 
   for(var element in deposit[currentUser["nome"]]){

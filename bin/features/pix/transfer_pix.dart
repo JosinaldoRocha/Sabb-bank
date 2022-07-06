@@ -12,6 +12,9 @@ late String keyTransfer;
 late Map<String, dynamic> searchUSer;
 late Map<String, dynamic> searchLastName;
 late Map<String, dynamic> searchBalance;
+Map<String, dynamic> dataExtract = {};
+List<Map<String, dynamic>> data = [];
+Map<String, dynamic> mapa = {};
 
 late int accountType;
 late int counter;
@@ -21,9 +24,8 @@ void transferPix() {
 
   while (type < 1 || type > typeKey.length) {
     print('Qual tipo de chave pix receberá a transferência?');
-
+    counter = 1;
     for (var element in typeKey) {
-      counter = 1;
       print('[${counter++}] $element');
     }
     type = readInt(message: 'Tipo de chave:');
@@ -62,10 +64,9 @@ void transferPositive() {
 
       valueTransfer = readDouble(message: 'Valor da transferência:');
 
-      option = readInt(message: '[1] Confirmar transferência');
+      option = readInt(message: '[1] Confirmar');
       cleanScreen();
     } while (option != 1);
-
     confirmTransfer();
   } else {
     print('Chave inexistente!\n');
@@ -112,6 +113,7 @@ void currentSavings() {
 }
 
 void confirmTransfer() {
+  dataExtract = {};
   if (valueTransfer <= balanceUSer[currentUser["nome"]]) {
     searchBalance[searchUSer["usuário"]] +=
         valueTransfer; // adição no saldo do beneficiado
@@ -122,6 +124,15 @@ void confirmTransfer() {
     print('\nTransferência concluída!');
     searchUSer["saldo"] += valueTransfer;
     user["saldo"] -= valueTransfer;
+
+    extractPix();
+    if (mapa["usuario"] == null) {
+      mapa["usuario"] = data;
+    } else {
+      mapa["usuario"] += data;
+    }
+    showExtractPix();
+    data = [];
 
     option =
         readInt(message: '[1] Ver comprovante      [2] Voltar para a área pix');
@@ -143,10 +154,34 @@ void confirmTransfer() {
   }
 }
 
-    // String password = readString(message: 'Digite sua senha:');
-    // positiveTransfer = users.any((element) => element["senha"] == password);
-    // if(positiveTransfer){
+void extractPix() {
+  dataExtract["valor"] = valueTransfer;
+  dataExtract["tipo"] = typeKey[type - 1];
+  dataExtract["chave"] = keyTransfer;
+  dataExtract["nome"] = searchLastName["nome"];
+  dataExtract["sobrenome"] = searchLastName["sobrenome"];
+  dataExtract["cpf"] = searchLastName["cpf"];
+  dataExtract["meunome"] = currentUser["nome"];
+  dataExtract["agencia"] = currentUser["agencia"];
+  dataExtract["conta"] = account[accountType - 1];
+  dataExtract["numerodaconta"] = currentUser["conta"];
 
-    // }else{
-    //   print('Senha inválida!');
-    // }
+  data.add(dataExtract);
+}
+
+void showExtractPix() {
+  for (var element in mapa["usuario"]) {
+    print('Tipo de transferência: Pix');
+    print('Valor da transferência: R\$${element["valor"]}\n');
+    print('Destino');
+    print('Tipo de chave: ${element["tipo"]}');
+    print('Chave: ${element["chave"]}');
+    print('Nome: ${element["nome"]} ${element["sobrenome"]}');
+    print('CPF: ${element["cpf"]}');
+    print('\nOrigem');
+    print('Nome: ${element["meunome"]}');
+    print('Agência: ${element["agencia"]}');
+    print('Conta: ${element["conta"]}');
+    print('Número da conta: ${element["numerodaconta"]}\n');
+  }
+}
