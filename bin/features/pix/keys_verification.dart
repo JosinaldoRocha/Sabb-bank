@@ -3,7 +3,6 @@ import '../../util/read.dart';
 import '../../variables/pix.dart';
 import '../../variables/users.dart';
 import '../authentication/step3.dart';
-import '../home/Home.dart';
 import 'register_new_key.dart';
 
 bool sameKeys = true;
@@ -34,8 +33,7 @@ void cpfCnpj() {
           type -= 1;
           user.addAll({"tipo": typeKey[type]});
           user.addAll({"chave": newKey});
-          user.addAll({"usuário": currentUser["nome"]});
-          user.addAll({"saldo": balance});
+          user.addAll({"nome": currentUser["nome"]});
           keysOneUSer.add(user);
 
           print('\nNova chave cadastrada! :)');
@@ -65,13 +63,11 @@ void cell() {
       positiveKey = newKey.length == 11;
 
       if (positiveKey) {
-        // addKey();
         if (!sameKeys) {
           type -= 1;
           user.addAll({"tipo": typeKey[type]});
           user.addAll({"chave": newKey});
-          user.addAll({"usuário": currentUser["nome"]});
-          user.addAll({"saldo": balance});
+          user.addAll({"nome": currentUser["nome"]});
           keysOneUSer.add(user);
 
           print('\nNova chave cadastrada! :)');
@@ -99,8 +95,7 @@ void email() {
       type -= 1;
       user.addAll({"tipo": typeKey[type]});
       user.addAll({"chave": newKey});
-      user.addAll({"usuário": currentUser["nome"]});
-      user.addAll({"saldo": balance});
+      user.addAll({"nome": currentUser["nome"]});
       keysOneUSer.add(user);
 
       print('\nNova chave cadastrada! :)');
@@ -123,8 +118,7 @@ void random() {
       type -= 1;
       user.addAll({"tipo": typeKey[type]});
       user.addAll({"chave": newKey});
-      user.addAll({"usuário": currentUser["nome"]});
-      user.addAll({"saldo": balance});
+      user.addAll({"nome": currentUser["nome"]});
       keysOneUSer.add(user);
 
       print('\nNova chave cadastrada! :)');

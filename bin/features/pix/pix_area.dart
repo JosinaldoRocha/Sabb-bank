@@ -37,7 +37,7 @@ void pixMenuOne() {
 void pixMenuTwo() {
   print('\n           <<Bem vindo à área pix!>>');
   print('[1] Nova chave pix            [2] Minhas chaves pix\n'
-      '[3] Pagar com pix             [4] Voltar ao menu inicial');
+      '[3] Pagar com pix             [4] Ir para extrato pix\n[5] Voltar ao menu inicial');
   int option = readInt(message: 'Digite um opção:');
   cleanScreen();
 
@@ -49,6 +49,8 @@ void pixMenuTwo() {
   } else if (option == 3) {
     transferPix();
   } else if (option == 4) {
+    showExtractPix();
+  } else if (option == 5) {
     home();
   } else {
     print('\nOpção inválida!');

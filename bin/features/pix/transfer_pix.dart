@@ -3,7 +3,6 @@ import '../../util/read.dart';
 import '../../variables/caluladora_do_saldo.dart';
 import '../../variables/pix.dart';
 import '../../variables/users.dart';
-import '../authentication/step3.dart';
 import 'pix_area.dart';
 import 'register_new_key.dart';
 
@@ -11,10 +10,8 @@ late double valueTransfer;
 late String keyTransfer;
 late Map<String, dynamic> searchUSer;
 late Map<String, dynamic> searchLastName;
-late Map<String, dynamic> searchBalance;
-Map<String, dynamic> dataExtract = {};
-List<Map<String, dynamic>> data = [];
-Map<String, dynamic> mapa = {};
+late Map<String, dynamic> searchExtractPix;
+late bool testExtract;
 
 late int accountType;
 late int counter;
@@ -77,10 +74,7 @@ void search() {
   searchUSer = users.firstWhere((element) => element["chave"] == keyTransfer);
 
   searchLastName =
-      users.firstWhere((element) => element["nome"] == searchUSer["usuário"]);
-
-  searchBalance = users.firstWhere(
-      (element) => element[searchUSer["usuário"]] == searchUSer["saldo"]);
+      users.firstWhere((element) => element["nome"] == searchUSer["nome"]);
 }
 
 void proof() {
@@ -99,7 +93,7 @@ void proof() {
 
   //teste
   print(
-      'Saldo do beneficiado: ${searchBalance[searchUSer["usuário"]]}'); //beneficiado
+      'Saldo do beneficiado: ${balanceUSer[searchUSer["nome"]]}'); //beneficiado
   print('Meu saldo: ${balanceUSer[currentUser["nome"]]}\n'); //pagador
 }
 
@@ -113,33 +107,46 @@ void currentSavings() {
 }
 
 void confirmTransfer() {
-  dataExtract = {};
+  dataTransfer = {};
   if (valueTransfer <= balanceUSer[currentUser["nome"]]) {
-    searchBalance[searchUSer["usuário"]] +=
+    balanceUSer[searchUSer["nome"]] +=
         valueTransfer; // adição no saldo do beneficiado
 
     balanceUSer[currentUser["nome"]] -=
         valueTransfer; //subtração no saldo do pagador
 
     print('\nTransferência concluída!');
-    searchUSer["saldo"] += valueTransfer;
-    user["saldo"] -= valueTransfer;
 
     extractPix();
-    if (mapa["usuario"] == null) {
-      mapa["usuario"] = data;
-    } else {
-      mapa["usuario"] += data;
-    }
-    showExtractPix();
-    data = [];
 
-    option =
-        readInt(message: '[1] Ver comprovante      [2] Voltar para a área pix');
+    testExtract = showAllExtractPix.any((element) =>
+        element["nome"] == currentUser["nome"] ||
+        element["meunome"] == currentUser["nome"]);
+
+    if (testExtract) {
+      if (allExtract[currentUser["nome"]] == null) {
+        allExtract[currentUser["nome"]] = dataExtract;
+      } else {
+        allExtract[currentUser["nome"]] += dataExtract;
+      }
+      if (allExtract[searchLastName["nome"]] == null) {
+        allExtract[searchLastName["nome"]] = dataExtract;
+      } else {
+        allExtract[searchLastName["nome"]] += dataExtract;
+      }
+    }
+
+    dataExtract = [];
+
+    option = readInt(
+        message:
+            '[1] Ver comprovante      [2] Ir para extrato pix\n[3] Voltar para a área pix');
     cleanScreen();
     if (option == 1) {
       proof();
     } else if (option == 2) {
+      showExtractPix();
+    } else if (option == 3) {
       pixMenuTwo();
     } else {
       print('\nOpção inválida!\n');
@@ -155,33 +162,40 @@ void confirmTransfer() {
 }
 
 void extractPix() {
-  dataExtract["valor"] = valueTransfer;
-  dataExtract["tipo"] = typeKey[type - 1];
-  dataExtract["chave"] = keyTransfer;
-  dataExtract["nome"] = searchLastName["nome"];
-  dataExtract["sobrenome"] = searchLastName["sobrenome"];
-  dataExtract["cpf"] = searchLastName["cpf"];
-  dataExtract["meunome"] = currentUser["nome"];
-  dataExtract["agencia"] = currentUser["agencia"];
-  dataExtract["conta"] = account[accountType - 1];
-  dataExtract["numerodaconta"] = currentUser["conta"];
+  dataTransfer["valor"] = valueTransfer;
+  dataTransfer["tipo"] = typeKey[type - 1];
+  dataTransfer["chave"] = keyTransfer;
+  dataTransfer["nome"] = searchLastName["nome"];
+  dataTransfer["sobrenome"] = searchLastName["sobrenome"];
+  dataTransfer["cpf"] = searchLastName["cpf"];
+  dataTransfer["meunome"] = currentUser["nome"];
+  dataTransfer["agencia"] = currentUser["agencia"];
+  dataTransfer["conta"] = account[accountType - 1];
+  dataTransfer["numerodaconta"] = currentUser["conta"];
 
-  data.add(dataExtract);
+  showAllExtractPix.add(dataTransfer);
+  dataExtract.add(dataTransfer);
 }
 
 void showExtractPix() {
-  for (var element in mapa["usuario"]) {
-    print('Tipo de transferência: Pix');
-    print('Valor da transferência: R\$${element["valor"]}\n');
-    print('Destino');
-    print('Tipo de chave: ${element["tipo"]}');
-    print('Chave: ${element["chave"]}');
-    print('Nome: ${element["nome"]} ${element["sobrenome"]}');
-    print('CPF: ${element["cpf"]}');
-    print('\nOrigem');
-    print('Nome: ${element["meunome"]}');
-    print('Agência: ${element["agencia"]}');
-    print('Conta: ${element["conta"]}');
-    print('Número da conta: ${element["numerodaconta"]}\n');
+  if (allExtract[currentUser["nome"]] == null) {
+    print('Nenhuma transferência pix realizada!');
+  } else {
+    print('------------------------------------------------');
+    for (var element in allExtract[currentUser["nome"]]) {
+      print('Tipo de transferência: Pix');
+      print('Valor da transferência: R\$${element["valor"]}\n');
+      print('<<Destino>>');
+      print('Nome: ${element["nome"]} ${element["sobrenome"]}');
+      print('Tipo de chave: ${element["tipo"]}');
+      print('Chave: ${element["chave"]}');
+      print('CPF: ${element["cpf"]}');
+      print('<<Origem>>');
+      print('Nome: ${element["meunome"]}');
+      print('Agência: ${element["agencia"]}');
+      print('Conta: ${element["conta"]}');
+      print('Número da conta: ${element["numerodaconta"]}');
+      print('------------------------------------------------\n');
+    }
   }
 }

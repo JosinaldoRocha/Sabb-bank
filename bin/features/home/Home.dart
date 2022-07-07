@@ -56,10 +56,9 @@ void showBalance() {
   if (balanceUSer[currentUser["nome"]] == null) {
     balance = 0;
     balanceUSer[currentUser["nome"]] = balance;
-    print('Saldo ${currentUser["nome"]}: R\$ $balance');
+    print('Saldo: R\$ $balance');
   } else {
     double showBalance = balanceUSer[currentUser["nome"]];
-    print(
-        'Saldo ${currentUser["nome"]}: R\$ ${showBalance.toStringAsFixed(2)}');
+    print('Saldo: R\$ ${showBalance.toStringAsFixed(2)}');
   }
 }
