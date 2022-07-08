@@ -26,9 +26,9 @@ void pixMenuOne() {
     option = readInt(message: 'Digite uma opção:');
     cleanScreen();
 
-    if (option == 1 || option == 01) {
+    if (option == 1) {
       registerNewKey();
-    } else if (option == 2 || option == 02) {
+    } else if (option == 2) {
       home();
     }
   }

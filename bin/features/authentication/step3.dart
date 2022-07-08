@@ -1,35 +1,31 @@
-import 'dart:io';
 import '../../util/read.dart';
 import 'step2.dart';
 import '../../variables/users.dart';
-import 'dart:math' as math;
 
 Map<String, dynamic> user = {};
+late String cpf;
 
 void step3() {
   print("---------------------------------------------");
-  print(" informe seus dados para fazero seu cadastro:");
+  print(" informe seus dados para fazer o seu cadastro:");
   print("---------------------------------------------");
 
-  print("|1| digite seu nome");
-  String nome = stdin.readLineSync() ?? "";
-  print("|2| digite seu sobrenome");
-  String sobrenome = stdin.readLineSync() ?? "";
+  String name = readString(message: 'Digite seu nome:');
 
-  String cpf = "";
-  while (cpf == "") {
-    print("|3|digite seu cpf ");
-    cpf = stdin.readLineSync() ?? "";
-    bool positiveCpf = users.any((element) => element["cpf"] == cpf);
-    if (!positiveCpf) {
+  String lastName = readString(message: 'Digite seu sobrenome:');
+
+  registerCpf();
+
+  bool positivePhone = false;
+  String phoneNumber = "";
+  while (positivePhone == false) {
+    phoneNumber = readString(message: 'Digite seu numero telefone:');
+    positivePhone = phoneNumber.length == 11;
+    if (positivePhone) {
     } else {
-      cpf = "";
-      print('Cpf existente. Tente cadastrar um número de CPF diferente!');
+      print('\nTelefone inválido!\nDigite um número de telefone válido!');
     }
   }
-
-  print("|4| digite seu numero telefone");
-  String telefone = stdin.readLineSync() ?? "";
 
   int account = 0;
   while (account == 0) {
@@ -41,22 +37,30 @@ void step3() {
       print('Conta existente. Tente cadastrar um número de conta diferente!');
     }
   }
-  
-  print("|10| digite seu email");
-  String email = stdin.readLineSync() ?? "";
-  print("|11| digite sua senha");
-  String senha = stdin.readLineSync() ?? "";
+
+  String email = "";
+  while (email == "") {
+    email = readString(message: 'Digite seu e-mail:');
+    bool positiveEmail = users.any((element) => element["email"] == email);
+    if (!positiveEmail) {
+    } else {
+      email = "";
+      print('E-mail existente. Tente cadastrar um e-mail diferente!');
+    }
+  }
+
+  String password = readString(message: 'Digite uma senha:');
 
   user = {
     "Agencia": 2345,
-    "conta": math.Random().nextInt(1000), // conta usuarios
-    "digito": 3,
-    "nome": nome,
-    "sobrenome": sobrenome,
+    "conta": account,
+    "digito": 0,
+    "nome": name,
+    "sobrenome": lastName,
     "cpf": cpf,
-    "telefone": telefone,
+    "telefone": phoneNumber,
     "email": email,
-    "senha": senha
+    "senha": password
   };
 
   users.add(user);
@@ -64,4 +68,26 @@ void step3() {
   print("\nCadastro realizado:");
 
   step2();
+}
+
+void registerCpf() {
+  bool positiveCpf = false;
+  cpf = "";
+  while (positiveCpf == false) {
+    cpf = "";
+    while (cpf == "") {
+      cpf = readString(message: 'Digite seu cpf:');
+      positiveCpf = cpf.length == 11;
+      if (positiveCpf) {
+        bool existingCpf = users.any((element) => element["cpf"] == cpf);
+        if (!existingCpf) {
+        } else {
+          cpf = "";
+          print('Cpf existente. Tente cadastrar um número de CPF diferente!');
+        }
+      } else {
+        print('\nCPF inválido!\nDigite um número de CPF válido!');
+      }
+    }
+  }
 }

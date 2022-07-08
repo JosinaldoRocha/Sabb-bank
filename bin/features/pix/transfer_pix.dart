@@ -188,7 +188,7 @@ void showExtractPix() {
   if (allExtract[currentUser["nome"]] == null) {
     print('Nenhuma transferência pix realizada!');
   } else {
-    print('------------------------------------------------');
+    print('\n------------------------------------------------');
     for (var element in allExtract[currentUser["nome"]]) {
       print('Tipo de transferência: Pix');
       print('Valor da transferência: R\$${element["valor"]}\n');
@@ -202,7 +202,7 @@ void showExtractPix() {
       print('Agência: ${element["agencia"]}');
       print('Conta: ${element["conta"]}');
       print('Número da conta: ${element["numerodaconta"]}');
-      print('------------------------------------------------\n');
+      print('------------------------------------------------');
     }
   }
 }

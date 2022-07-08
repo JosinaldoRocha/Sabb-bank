@@ -4,7 +4,6 @@ import '../../variables/caluladora_do_saldo.dart';
 import '../../variables/pix.dart';
 import '../../variables/transfer.dart';
 import '../../variables/users.dart';
-import '../pix/transfer_pix.dart';
 import 'menu_transfer.dart';
 
 late double valueTransfer;
@@ -17,6 +16,7 @@ late int numberAccount;
 late bool positiveExtract;
 
 transfer() {
+  int option = 0;
   if (optionMenuTransfer == 2) {
     bank = 0;
     while (bank < 1 || bank > banks.length) {
@@ -35,6 +35,10 @@ transfer() {
   }
 
   positiveTransfer();
+do {
+    option = readInt(message: '[1] Voltar ao menu de transferências');
+  } while (option != 1);
+  transferMenu();
 }
 
 void positiveTransfer() {
@@ -106,8 +110,7 @@ void confirmTransfer() {
     balanceUSer[searchData["nome"]] += valueTransfer;
   }
 
-  balanceUSer[currentUser["nome"]] -=
-      valueTransfer; //subtração no saldo do pagador
+  balanceUSer[currentUser["nome"]] -= valueTransfer;
 
   print('\nTransferência concluída!');
 
@@ -132,7 +135,7 @@ void confirmTransfer() {
 
   dataExtractTransfer = [];
 
-  option = readInt(message: '[1] Ver comprovante      [2] Ir para extrato');
+  int option = readInt(message: '[1] Ver comprovante      [2] Ir para extrato');
   cleanScreen();
   if (option == 1) {
     proofTransfer();
@@ -163,7 +166,7 @@ void showExtractTransfer() {
   if (allExtractTransfer[currentUser["nome"]] == null) {
     print('Nenhuma transferência realizada!');
   } else {
-    print('------------------------------------------------');
+    print('\n------------------------------------------------');
     for (var element in allExtractTransfer[currentUser["nome"]]) {
       print('Tipo de transferência: TED');
       print('Valor da transferência: R\$${element["valor"]}\n');
