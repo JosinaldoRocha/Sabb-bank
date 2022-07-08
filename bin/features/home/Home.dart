@@ -7,6 +7,7 @@ import '../deposito/new_deposit.dart';
 import '../emprestimo/init.dart';
 import '../pix/pix_area.dart';
 import '../saldo e extrato/extrato.dart';
+import '../transferencia/menu_transfer.dart';
 
 late double balance;
 void home() {
@@ -38,7 +39,7 @@ void home() {
       init();
       break;
     case 4:
-      // transferencias
+      transferMenu();
       break;
     case 5:
       mostrarExtrato();

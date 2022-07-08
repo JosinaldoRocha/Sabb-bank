@@ -6,32 +6,27 @@ import '../../variables/users.dart';
 import 'pix_area.dart';
 import 'register_new_key.dart';
 
-late double valueTransfer;
+late double valueTransferPix;
 late String keyTransfer;
 late Map<String, dynamic> searchUSer;
 late Map<String, dynamic> searchLastName;
-late Map<String, dynamic> searchExtractPix;
-late bool testExtract;
+late bool positiveExtractPix;
 
 late int accountType;
 late int counter;
 int option = 0;
+
 void transferPix() {
-  type = 0;
+  counter = 1;
+  for (var element in typeKey) {
+    print('[${counter++}] $element');
+  }
+  type = readInt(message: 'Tipo de chave pix:');
 
-  while (type < 1 || type > typeKey.length) {
-    print('Qual tipo de chave pix receberá a transferência?');
-    counter = 1;
-    for (var element in typeKey) {
-      print('[${counter++}] $element');
-    }
-    type = readInt(message: 'Tipo de chave:');
-
-    if (type > 0 && type <= typeKey.length) {
-      transferPositive();
-    } else {
-      print('\nOpção inválida!');
-    }
+  if (type > 0 && type <= typeKey.length) {
+    positiveTransferPix();
+  } else {
+    print('\nOpção inválida!');
   }
 
   do {
@@ -40,33 +35,59 @@ void transferPix() {
   pixMenuTwo();
 }
 
-void transferPositive() {
+void positiveTransferPix() {
   accountType = 0;
 
   keyTransfer = readString(message: 'Chave:');
 
-  while (accountType != 1 && accountType != 2) {
-    currentSavings();
-  }
-  bool positiveTransfer = users.any((element) =>
-      element["chave"] == keyTransfer && element["tipo"] == typeKey[type - 1]);
+  bool negativeKey = users.any((element) =>
+      element["chave"] == keyTransfer &&
+      element["nome"] == currentUser["nome"]);
 
-  if (positiveTransfer) {
-    search();
+  if (!negativeKey) {
+    bool positiveKey = users.any((element) =>
+        element["chave"] == keyTransfer &&
+        element["tipo"] == typeKey[type - 1]);
 
-    do {
-      print(
-          '\nDestino:\nTipo de chave pix: ${typeKey[type - 1]}\nChave pix: $keyTransfer\n'
-          'Nome: ${searchLastName["nome"]} ${searchLastName["sobrenome"]}\n'); //beneficiado
+    if (positiveKey) {
+      while (accountType != 1 && accountType != 2) {
+        currentSavings();
+      }
 
-      valueTransfer = readDouble(message: 'Valor da transferência:');
+      valueTransferPix = readDouble(message: 'Valor da transferência:');
 
-      option = readInt(message: '[1] Confirmar');
-      cleanScreen();
-    } while (option != 1);
-    confirmTransfer();
+      if (valueTransferPix <= balanceUSer[currentUser["nome"]]) {
+        search();
+        print(
+            '\nConfirme os dados de destino e digite sua senha para confirmar a transferência.');
+        print(
+            '\nTipo de chave pix: ${typeKey[type - 1]}\nChave pix: $keyTransfer\n'
+            'Nome: ${searchLastName["nome"]} ${searchLastName["sobrenome"]}\n'); //beneficiado
+
+        String password = "Senha inválida";
+
+        while (password == "Senha inválida") {
+          password = readString(message: 'Senha:');
+          if (users.any((element) =>
+              element["senha"] == password &&
+              element["nome"] == currentUser["nome"])) {
+            cleanScreen();
+            confirmTransferPix();
+          } else {
+            cleanScreen();
+            password = "Senha inválida";
+            print('\n$password, tente novamente!');
+            cleanScreen();
+          }
+        }
+      } else {
+        print('\nSaldo insuficiente!\n');
+      }
+    } else {
+      print('\nChave inexistente!\n');
+    }
   } else {
-    print('Chave inexistente!\n');
+    print('Você não pode transferir para uma chave pix sua.');
   }
 }
 
@@ -79,7 +100,7 @@ void search() {
 
 void proof() {
   print('\nComprovante de transferência\n'
-      'Valor da transferência: R\$ $valueTransfer\nTipo de transferência: Pix\n');
+      'Valor da transferência: R\$ $valueTransferPix\nTipo de transferência: Pix\n');
   print('Destino:');
   print('Tipo de chave pix: ${typeKey[type - 1]}\nChave pix: $keyTransfer\n'
       'Nome: ${searchLastName["nome"]} ${searchLastName["sobrenome"]}\n'
@@ -90,91 +111,77 @@ void proof() {
       'Instituição: Sabb bank\nAgência: ${currentUser["agencia"]}\n'
       'Conta: ${account[accountType - 1]}\n'
       'Número da conta ${account[accountType - 1]}: ${currentUser["conta"]}\n');
-
-  //teste
-  print(
-      'Saldo do beneficiado: ${balanceUSer[searchUSer["nome"]]}'); //beneficiado
-  print('Meu saldo: ${balanceUSer[currentUser["nome"]]}\n'); //pagador
 }
 
 void currentSavings() {
   counter = 1;
-  print('Debitar da sua conta:');
-  for (var element in account) {
-    print('[${counter++}] $element');
+  accountType = 0;
+  while (accountType != 1 && accountType != 2) {
+    print('Debitar da sua conta:');
+    for (var element in account) {
+      print('[${counter++}] $element');
+    }
+    accountType = readInt(message: 'Conta:');
   }
-  accountType = readInt(message: 'Conta:');
 }
 
-void confirmTransfer() {
-  dataTransfer = {};
-  if (valueTransfer <= balanceUSer[currentUser["nome"]]) {
-    balanceUSer[searchUSer["nome"]] +=
-        valueTransfer; // adição no saldo do beneficiado
+void confirmTransferPix() {
+  dataTransferPix = {};
 
-    balanceUSer[currentUser["nome"]] -=
-        valueTransfer; //subtração no saldo do pagador
+  balanceUSer[searchUSer["nome"]] +=
+      valueTransferPix; // adição no saldo do beneficiado
 
-    print('\nTransferência concluída!');
+  balanceUSer[currentUser["nome"]] -=
+      valueTransferPix; //subtração no saldo do pagador
 
-    extractPix();
+  print('\nTransferência concluída!');
 
-    testExtract = showAllExtractPix.any((element) =>
-        element["nome"] == currentUser["nome"] ||
-        element["meunome"] == currentUser["nome"]);
+  extractPix();
 
-    if (testExtract) {
-      if (allExtract[currentUser["nome"]] == null) {
-        allExtract[currentUser["nome"]] = dataExtract;
-      } else {
-        allExtract[currentUser["nome"]] += dataExtract;
-      }
-      if (allExtract[searchLastName["nome"]] == null) {
-        allExtract[searchLastName["nome"]] = dataExtract;
-      } else {
-        allExtract[searchLastName["nome"]] += dataExtract;
-      }
-    }
+  positiveExtractPix = showAllExtractPix.any((element) =>
+      element["nome"] == currentUser["nome"] ||
+      element["meunome"] == currentUser["nome"]);
 
-    dataExtract = [];
-
-    option = readInt(
-        message:
-            '[1] Ver comprovante      [2] Ir para extrato pix\n[3] Voltar para a área pix');
-    cleanScreen();
-    if (option == 1) {
-      proof();
-    } else if (option == 2) {
-      showExtractPix();
-    } else if (option == 3) {
-      pixMenuTwo();
+  if (positiveExtractPix) {
+    if (allExtract[currentUser["nome"]] == null) {
+      allExtract[currentUser["nome"]] = dataExtract;
     } else {
-      print('\nOpção inválida!\n');
-      do {
-        option = readInt(message: '[1] Voltar para a área pix');
-        cleanScreen();
-      } while (option != 1);
-      pixMenuTwo();
+      allExtract[currentUser["nome"]] += dataExtract;
     }
+    if (allExtract[searchLastName["nome"]] == null) {
+      allExtract[searchLastName["nome"]] = dataExtract;
+    } else {
+      allExtract[searchLastName["nome"]] += dataExtract;
+    }
+  }
+
+  dataExtract = [];
+
+  option = readInt(message: '[1] Ver comprovante      [2] Ir para extrato pix');
+  cleanScreen();
+  if (option == 1) {
+    proof();
+  } else if (option == 2) {
+    showExtractPix();
   } else {
-    print('Saldo insuficiente!');
+    print('\nOpção inválida!\n');
   }
 }
 
 void extractPix() {
-  dataTransfer["valor"] = valueTransfer;
-  dataTransfer["tipo"] = typeKey[type - 1];
-  dataTransfer["chave"] = keyTransfer;
-  dataTransfer["nome"] = searchLastName["nome"];
-  dataTransfer["sobrenome"] = searchLastName["sobrenome"];
-  dataTransfer["cpf"] = searchLastName["cpf"];
-  dataTransfer["meunome"] = currentUser["nome"];
-  dataTransfer["agencia"] = currentUser["agencia"];
-  dataTransfer["conta"] = account[accountType - 1];
-  dataTransfer["numerodaconta"] = currentUser["conta"];
+  dataTransferPix["valor"] = valueTransferPix;
+  dataTransferPix["tipo"] = typeKey[type - 1];
+  dataTransferPix["chave"] = keyTransfer;
+  dataTransferPix["nome"] = searchLastName["nome"];
+  dataTransferPix["sobrenome"] = searchLastName["sobrenome"];
+  dataTransferPix["cpf"] = searchLastName["cpf"];
+  dataTransferPix["meunome"] = currentUser["nome"];
+  dataTransferPix["agencia"] = currentUser["agencia"];
+  dataTransferPix["conta"] = account[accountType - 1];
+  dataTransferPix["numerodaconta"] = currentUser["conta"];
 
-  showAllExtractPix.add(dataTransfer);
-  dataExtract.add(dataTransfer);
+  showAllExtractPix.add(dataTransferPix);
+  dataExtract.add(dataTransferPix);
 }
 
 void showExtractPix() {

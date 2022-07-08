@@ -19,7 +19,7 @@ void pixMenuOne() {
   int option = 0;
 
   print(
-      '\nBem vindo à área pix, ${currentUser["nome"]}! Você ainda não possue chave pix cadastrada.\n');
+      '\n<<Bem vindo à área pix, ${currentUser["nome"]}!>>\nVocê ainda não possue chave pix cadastrada.\n');
 
   while (option != 1 && option != 2) {
     print('[1] Cadastrar nova chave pix     [2] Voltar ao menu inicial');
@@ -50,6 +50,11 @@ void pixMenuTwo() {
     transferPix();
   } else if (option == 4) {
     showExtractPix();
+    int option = 0;
+    do {
+      option = readInt(message: '[1] Voltar');
+    } while (option != 1);
+    pixMenuTwo();
   } else if (option == 5) {
     home();
   } else {

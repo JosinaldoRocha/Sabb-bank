@@ -5,6 +5,7 @@ import '../pix/transfer_pix.dart';
 import '../saldo e extrato/voltar_ou_sair.dart';
 import '../../util/linha.dart';
 import '../../variables/caluladora_do_saldo.dart';
+import '../transferencia/transfer.dart';
 
 void mostrarExtrato() {
   print("|=============| Extrato |===========|");
@@ -32,9 +33,9 @@ void mostrarExtrato() {
   }
   //area de pix
   showExtractPix();
-  
 
   // //area de transferencia
+  showExtractTransfer();
   // Map<String, dynamic> transferencia;
   // print("Emprestimos:");
   // for (transferencia in loan) {//troca o loan pelo map da transferencia

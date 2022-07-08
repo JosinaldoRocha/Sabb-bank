@@ -7,7 +7,7 @@ List<String> typeKey = [
   "E-mail",
   "Aleatória"
 ]; //tipos de chaves
-Map<String, dynamic> dataTransfer = {}; //dados de uma tranferência 
+Map<String, dynamic> dataTransferPix = {}; //dados de uma tranferência 
 List<Map<String, dynamic>> dataExtract = []; // extratos de um usuário
 Map<String, dynamic> allExtract = {}; //todos os extratos
 List<Map<String, dynamic>> showAllExtractPix = []; //todos os extratos
