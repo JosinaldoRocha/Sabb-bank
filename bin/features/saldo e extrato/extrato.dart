@@ -1,6 +1,6 @@
 import '../../variables/users.dart';
 import '../emprestimo/make_a_loan.dart';
-import '../home/Home.dart';
+import '../home/home.dart';
 import '../pix/transfer_pix.dart';
 import '../saldo e extrato/voltar_ou_sair.dart';
 import '../../util/linha.dart';

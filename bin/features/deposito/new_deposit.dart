@@ -1,7 +1,7 @@
 import '../../util/read.dart';
 import '../../variables/caluladora_do_saldo.dart';
 import '../../variables/users.dart';
-import '../home/Home.dart';
+import '../home/home.dart';
 
 Map<String, dynamic> valor = {};
 Future<void> newdeposit() async {

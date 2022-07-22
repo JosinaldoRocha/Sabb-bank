@@ -2,7 +2,7 @@ import '../../util/clean_screen.dart';
 import '../../util/read.dart';
 import '../../variables/caluladora_do_saldo.dart';
 import '../../variables/users.dart';
-import '../home/Home.dart';
+import '../home/home.dart';
 
 Map<String, dynamic> loanUser = {};
 Map<String, dynamic> loanUserError = {};

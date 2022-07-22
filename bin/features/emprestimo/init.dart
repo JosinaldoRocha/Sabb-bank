@@ -2,7 +2,7 @@ import '../../util/clean_screen.dart';
 import '../../util/read.dart';
 import 'show.dart';
 import 'make_a_loan.dart';
-import '../home/Home.dart';
+import '../home/home.dart';
 
 void init() {
   int option = 0;

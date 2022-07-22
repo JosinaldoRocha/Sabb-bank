@@ -2,7 +2,7 @@ import '../../util/clean_screen.dart';
 import '../../util/read.dart';
 import '../../variables/pix.dart';
 import '../../variables/users.dart';
-import '../home/Home.dart';
+import '../home/home.dart';
 import 'my_keys_registered.dart';
 import 'register_new_key.dart';
 import 'transfer_pix.dart';

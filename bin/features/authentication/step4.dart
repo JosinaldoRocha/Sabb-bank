@@ -1,5 +1,5 @@
 import 'dart:io';
-import '../home/Home.dart';
+import '../home/home.dart';
 import 'step2.dart';
 import '../../variables/users.dart';
 
